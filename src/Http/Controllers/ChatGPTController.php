@@ -3,10 +3,9 @@
 namespace Naif\Chatgpt\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Schema;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Naif\Chatgpt\Models\ChatGPTNova4;
 
 class ChatGPTController extends Controller
 {
@@ -23,6 +22,13 @@ class ChatGPTController extends Controller
 
         $answer = $response->json()['choices'][0]['text'];
         $total_tokens = $response->json()['usage']['total_tokens'];
+
+        ChatGPTNova4::create([
+            'question' => $request->question,
+            'answer' => $answer,
+            'total_tokens' => (int)$total_tokens,
+        ]);
+
         return response()->json([
             'answer' => $answer,
             'total_tokens' => $total_tokens

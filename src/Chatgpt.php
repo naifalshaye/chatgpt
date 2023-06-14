@@ -30,6 +30,6 @@ class Chatgpt extends Tool
     {
         return MenuSection::make('Chatgpt')
             ->path('/chatgpt')
-            ->icon('server');
+            ->icon('database');
     }
 }

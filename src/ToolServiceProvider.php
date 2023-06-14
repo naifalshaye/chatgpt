@@ -25,6 +25,29 @@ class ToolServiceProvider extends ServiceProvider
         Nova::serving(function (ServingNova $event) {
             //
         });
+
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../config/chatgpt-nova4.php' => config_path('chatgpt-nova4.php')
+            ], 'config');
+
+            if (!class_exists('CreateChatGPTNova4Table')) {
+//                $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+                $this->publishes([
+                    __DIR__ . '/../database/migrations/create_chatgpt_nova4_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_chatgpt_nova4_table.php'),
+                ], 'chatgpt-nova4-migrations');
+            }
+
+            if (!class_exists('ChatGPTNova4')) {
+                $this->publishes([
+                    __DIR__ . '/Models/ChatGPTNova4.php' => app_path('Models/ChatGPTNova4.php')
+                ], 'models');
+            }
+
+
+
+        }
     }
 
     /**
@@ -39,11 +62,11 @@ class ToolServiceProvider extends ServiceProvider
         }
 
         Nova::router(['nova', Authenticate::class, Authorize::class], 'chatgpt')
-            ->group(__DIR__.'/../routes/inertia.php');
+            ->group(__DIR__ . '/../routes/inertia.php');
 
         Route::middleware(['nova', Authorize::class])
             ->prefix('nova-vendor/chatgpt')
-            ->group(__DIR__.'/../routes/api.php');
+            ->group(__DIR__ . '/../routes/api.php');
     }
 
     /**
