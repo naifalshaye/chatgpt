@@ -5,11 +5,14 @@ A Laravel Nova 4 ChatGPT Integration Tool combines Laravel Nova 4 with the ChatG
 ## Features
 - Ask ChatGPT
 - Store questions to database
-- Copy Answer
+- Copy answer
 - Display total Tokens used for each request
 - Tracks token usage
 - History Page for easy reference
 - View question page
+- Delete question
+- Clear history
+
 
 ## Installation
 
