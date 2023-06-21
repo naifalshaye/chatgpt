@@ -1,9 +1,16 @@
 {
     "name": "naif/chatgpt",
-    "description": "A Laravel Nova tool.",
+    "description": "A Laravel Nova tool to ask ChatGPT and store question with answer to db to be viewed.",
     "keywords": [
         "laravel",
-        "nova"
+        "nova",
+        "nova4",
+        "chatgpt",
+        "text-davinci-003",
+        "openai",
+        "ai",
+        "artificial-intelligence"
+
     ],
     "license": "MIT",
     "require": {
@@ -22,7 +29,8 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "platform-check": false
     },
     "minimum-stability": "dev",
     "prefer-stable": true

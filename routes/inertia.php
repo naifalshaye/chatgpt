@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Naif\Chatgpt\Http\Controllers\ChatGPTController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,11 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 Route::get('/', function (NovaRequest $request) {
     return inertia('Chatgpt');
 });
+
+Route::get('/history', function (NovaRequest $request) {
+    return inertia('History');
+})->name('history');
+
+Route::get('/history/view/{id}', function (NovaRequest $request) {
+    return Inertia::render('View',with(['id'=>$request->id]));
+})->name('view');

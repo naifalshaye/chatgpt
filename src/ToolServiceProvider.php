@@ -46,7 +46,6 @@ class ToolServiceProvider extends ServiceProvider
             }
 
 
-
         }
     }
 
