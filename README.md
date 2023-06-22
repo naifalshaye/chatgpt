@@ -28,6 +28,11 @@ Publish Model, Migration and Config files
 php artisan vendor:publish
 ```
 
+Run Migrate
+```
+php artisan migrate
+```
+
 Select: Naif\Chatgpt\ToolServiceProvider
 
 Add the below to .env file:
