@@ -19,7 +19,7 @@ A Laravel Nova 4 ChatGPT Integration Tool combines Laravel Nova 4 with the ChatG
 You can install the package into a Laravel app that uses Nova via composer:
 
 ```bash
-composer require naif/chatgpt-nova4
+composer require naif/chatgpt
 ```
 
 Publish Model, Migration and Config files
