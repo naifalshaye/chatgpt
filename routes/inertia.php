@@ -22,8 +22,8 @@ Route::get('/', function (NovaRequest $request) {
 
 Route::get('/history', function (NovaRequest $request) {
     return inertia('History');
-})->name('history');
+});
 
 Route::get('/history/view/{id}', function (NovaRequest $request) {
     return Inertia::render('View',with(['id'=>$request->id]));
-})->name('view');
+});
