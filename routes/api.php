@@ -16,6 +16,6 @@ use Naif\Chatgpt\Http\Controllers\ChatGPTController;
 */
 
 Route::post('/ask', [ChatGPTController::class, 'ask']);
-Route::get('/history', [ChatGPTController::class, 'history']);
-Route::get('/history/view/{id}', [ChatGPTController::class, 'view']);
-Route::post('/history/delete', [ChatGPTController::class, 'delete']);
+Route::get('/history/get-questions', [ChatGPTController::class, 'history']);
+Route::get('/history/get-question/{id}', [ChatGPTController::class, 'view']);
+Route::post('/history/delete-question', [ChatGPTController::class, 'delete']);

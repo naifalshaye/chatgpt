@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         async getRecord() {
-            Nova.request().get('/nova-vendor/chatgpt/history/view/' + this.$page.props.id).then(({data}) => {
+            Nova.request().get('/nova-vendor/chatgpt/history/get-question/' + this.$page.props.id).then(({data}) => {
                 this.record = data.record
             })
         },

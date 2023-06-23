@@ -4,7 +4,7 @@
             <div class="mb-2 text-xl">Ask ChatGPT</div>
             <div>
                 <div class="text-xs mt-6 mb-8 md:min-h-40">
-                    <a :href="'/nova/chatgpt/history'"
+                    <a :href="'/nova/chatgpt/view-questions-history'"
                        class="bg-transparent hover:text-gray-500 hover:bg-gray-200 text-blue-700 font-semibold  py-1 px-2 border  rounded shadow">
                         View History
                     </a>

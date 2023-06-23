@@ -20,10 +20,10 @@ Route::get('/', function (NovaRequest $request) {
     return inertia('Chatgpt');
 });
 
-Route::get('/history', function (NovaRequest $request) {
+Route::get('/view-questions-history', function (NovaRequest $request) {
     return inertia('History');
 });
 
-Route::get('/history/view/{id}', function (NovaRequest $request) {
+Route::get('/view-questions-history/view/{id}', function (NovaRequest $request) {
     return Inertia::render('View',with(['id'=>$request->id]));
 });

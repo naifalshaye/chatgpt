@@ -41,7 +41,7 @@
                         {{ record.total_tokens }}
                     </td>
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-1">
-                        <a :href="'/nova/chatgpt/history/view/'+record.id">
+                        <a :href="'/nova/chatgpt/view-questions-history/view/'+record.id">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -83,7 +83,7 @@ export default {
     },
     methods: {
         async getHistory() {
-            Nova.request().get('/nova-vendor/chatgpt/history', {}).then(({data}) => {
+            Nova.request().get('/nova-vendor/chatgpt/history/get-questions', {}).then(({data}) => {
                 this.history = data.history.data
             })
         },
@@ -97,7 +97,7 @@ export default {
             return year + '-' + month + '-' + day;
         },
         async deleteRecord(id) {
-            Nova.request().post('/nova-vendor/chatgpt/history/delete', {id:id}).then(({data}) => {
+            Nova.request().post('/nova-vendor/chatgpt/history/delete-question', {id:id}).then(({data}) => {
                 if (data){
                     this.getHistory();
                 }
