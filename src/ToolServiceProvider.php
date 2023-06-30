@@ -32,7 +32,6 @@ class ToolServiceProvider extends ServiceProvider
             ], 'config');
 
             if (!class_exists('CreateChatGPTNova4Table')) {
-//                $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
                 $this->publishes([
                     __DIR__ . '/../database/migrations/create_chatgpt_nova4_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_chatgpt_nova4_table.php'),

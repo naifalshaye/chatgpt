@@ -29,15 +29,14 @@ composer require naif/chatgpt
 Publish Model, Migration and Config files
 
 ```
-php artisan vendor:publish
+php artisan vendor:publish --provider="Naif\Chatgpt\ToolServiceProvider" 
+
 ```
 
 Run Migrate
 ```
 php artisan migrate
 ```
-
-Select: Naif\Chatgpt\ToolServiceProvider
 
 Add the below to .env file:
 
