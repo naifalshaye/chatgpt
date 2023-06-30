@@ -13,7 +13,11 @@ A Laravel Nova 4 ChatGPT Integration Tool combines Laravel Nova 4 with the ChatG
 - Delete question
 - Clear history
 
-
+### Requirements
+- PHP 8.0 or higher
+- Nova 4
+- OpenAI API Key
+- 
 ## Installation
 
 You can install the package into a Laravel app that uses Nova via composer:
