@@ -22,6 +22,9 @@
                     </a>
                 </div>
             </div>
+            <div v-if="this.error" class="text-red-500 font-bold mt-4 mb-4 flex justify-center text-center">
+                {{ this.error }}
+            </div>
             <div class="w-full md:w-3/5 mb-8">
                 <form @submit.prevent="submitForm" ref="form" method="post" class="space-y-8">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
@@ -87,7 +90,7 @@ export default {
                     await toClipboard(answer)
                 }
             } catch (e) {
-                console.log(e.message);
+                alert(e.message);
             }
         }
         return {copy}
@@ -99,6 +102,7 @@ export default {
             total_tokens: '',
             submitIsDisabled: true,
             formSubmitted: false,
+            error: ''
         };
     },
     mounted() {
@@ -124,15 +128,19 @@ export default {
         submitForm() {
             Nova.request().post('/nova-vendor/chatgpt/ask', {question: this.question})
                 .then(({data}) => {
-                    // this.answer = this.formatStringAsList(data.answer);
-                    this.answer = data.answer;
-                    this.total_tokens = data.total_tokens;
+                    if (data.api_response_error) {
+                        this.error = data.api_response_error;
+                    } else if (data.exception) {
+                        this.error = data.exception_message;
+                    } else {
+                        this.answer = data.answer;
+                        this.total_tokens = data.total_tokens;
+                    }
                 })
         },
         clearHistory() {
             Nova.request().post('/nova-vendor/chatgpt/history/clear', {question: this.question})
                 .then(({data}) => {
-                    console.log(data);
                 })
         },
         enableSubmit() {
