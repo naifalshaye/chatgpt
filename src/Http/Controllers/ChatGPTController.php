@@ -18,17 +18,23 @@ class ChatGPTController extends Controller
                 throw new Exception('ChatGPT API Key not found!', '404');
             } else {
                 $response = Http::withoutVerifying()
+                    ->withOptions([
+                        'proxy' => Config::get('chatgpt-nova4.chatgpt_api_key'),
+                    ])
                     ->withHeaders([
                         'Authorization' => 'Bearer ' . Config::get('chatgpt-nova4.chatgpt_api_key'),
                         'Content-Type' => 'application/json',
-                    ])->post('https://api.openai.com/v1/engines/text-davinci-003/completions', [
-                        "prompt" => $request->question,
+                    ])->post('https://api.openai.com/v1/chat/completions', [
+                        'model' => 'gpt-3.5-turbo',
+                        'messages' => [
+                            ['role' => 'user','content' => $request->question],
+                        ],
                         "max_tokens" => (int)Config::get('chatgpt-nova4.max_tokens'),
                     ]);
 
-                if (isset($response->json()['choices'][0]['text'])) {
+                if (isset($response->json()['choices'][0]['message']['content'])) {
 
-                    $answer = $response->json()['choices'][0]['text'];
+                    $answer = $response->json()['choices'][0]['message']['content'];
                     $total_tokens = $response->json()['usage']['total_tokens'];
 
                     ChatGPTNova4::create([

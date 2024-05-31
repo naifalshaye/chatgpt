@@ -12,6 +12,7 @@ return [
     */
 
     'chatgpt_api_key' => env('CHATGPT_NOVA4_API_KEY', ''),
+    'chatgpt_proxy_host' => env('OPENAI_PROXY_HOST', ''),
 
     'max_tokens' => env('CHATGPT_NOVA4_MAX_TOKENS', '1000'),
 
