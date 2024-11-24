@@ -2,7 +2,7 @@
     <div class="md:w-full">
         <div class="mb-2 text-xl text-center">Ask ChatGPT</div>
         <div class="mb-2 text-md flex justify-center" v-if="this.history.length > 0">
-            <table class="table-auto mt-6 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <table class="table-auto w-full mt-6 bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <thead>
                 <tr class="text-xs">
                     <th class="border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 px-4 py-3">
@@ -31,8 +31,8 @@
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-1">
                         {{ record.id }}
                     </td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-1">
-                        {{ record.question.substring(0, 90) }}...
+                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-1 w-full">
+                        {{ record.question.substring(0, 100) }}...
                     </td>
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-1">
                         {{ this.formatDate(record.created_at) }}
@@ -40,18 +40,18 @@
                     <td class="border border-gray-300 dark:border-gray-700 px-4 py-1">
                         {{ record.total_tokens }}
                     </td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-1">
+                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-1 ">
                         <a :href="'/nova/chatgpt/view-questions-history/view/'+record.id">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                       d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
                         </a>
                     </td>
-                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-1 flex justify-center items-center">
+                    <td class="border border-gray-300 dark:border-gray-700 px-4 py-1">
                         <a :href="'#'" @click="deleteRecord(record.id)">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                       d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>

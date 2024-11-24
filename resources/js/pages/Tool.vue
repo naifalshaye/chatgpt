@@ -4,20 +4,27 @@
             <div class="mb-2 text-xl">Ask ChatGPT</div>
             <div>
                 <div class="text-xs mt-6 mb-8 md:min-h-40">
+                    <label for="chatgpt_model" class="text-sm">Select Model: </label>
+                    <select v-model="chatgpt_model"
+                            class="bg-transparent hover:text-gray-500 hover:bg-gray-200 text-blue-700 font-semibold py-1 px-2 border rounded shadow mr-3">
+                        <option :value="model" v-for="model in chatgpt_models">
+                            {{ model }}
+                        </option>
+                    </select>
                     <a :href="'/nova/chatgpt/view-questions-history'"
-                       class="bg-transparent hover:text-gray-500 hover:bg-gray-200 text-blue-700 font-semibold  py-1 px-2 border  rounded shadow">
+                       class="bg-transparent hover:text-gray-500 hover:bg-gray-200 text-blue-700 font-semibold py-1 px-2 border rounded shadow">
                         View History
                     </a>
                     <a :href="'#'" @click="clearHistory"
-                       class="ml-3 bg-transparent hover:bg-gray-200  hover:bg-blue-500 text-blue-700 font-semibold h py-1 px-2 border border-blue-500 hover:border-transparent rounded">
+                       class="ml-3 bg-transparent hover:text-gray-500 hover:bg-gray-200 text-blue-700 font-semibold py-1 px-2 border border-blue-500 hover:border-transparent rounded">
                         Clear History
                     </a>
                     <a href="   https://platform.openai.com/account/api-keys" target="_blank"
-                       class="ml-3 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded">
+                       class="ml-3 bg-transparent hover:text-gray-500 hover:bg-gray-200 text-blue-700 font-semibold py-1 px-2 border border-blue-500 hover:border-transparent rounded">
                         Get API Key
                     </a>
                     <a href="https://github.com/naifalshaye/chatgpt-nova4" target="_blank"
-                       class="ml-3 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-2 border border-blue-500 hover:border-transparent rounded">
+                       class="ml-3 bg-transparent hover:text-gray-500 hover:bg-gray-200 text-blue-700 font-semibold py-1 px-2 border border-blue-500 hover:border-transparent rounded">
                         Doc
                     </a>
                 </div>
@@ -25,11 +32,17 @@
             <div v-if="this.error" class="text-red-500 font-bold mt-4 mb-4 flex justify-center text-center">
                 {{ this.error }}
             </div>
+            <div v-if="this.history_cleared" class="text-green-500 font-bold mt-4 mb-4 flex justify-center text-center">
+                History cleared!
+            </div>
             <div class="w-full md:w-3/5 mb-8">
                 <form @submit.prevent="submitForm" ref="form" method="post" class="space-y-8">
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
                         <div class="py-4 md:py-6">
-                            <div class="text-left text-md mb-2">Question</div>
+                            <div class="text-left text-md mb-2">
+                                <span class="text-red-600">*</span>
+
+                                Question</div>
                             <input type="text" class="w-full form-control form-input form-input-bordered text-center"
                                    v-model="question" placeholder="Type in your question.."
                                    @input="enableSubmit">
@@ -97,27 +110,27 @@ export default {
     },
     data() {
         return {
+            chatgpt_models: [],
+            chatgpt_model: 'gpt-3.5-turbo',
             question: '',
             answer: '',
             total_tokens: '',
             submitIsDisabled: true,
             formSubmitted: false,
-            error: ''
+            error: '',
+            history_cleared: false,
+
         };
     },
     mounted() {
-
+        this.getChatGPTModels();
     },
     methods: {
-        async ask(table) {
-            if (table.target.value === '') {
-                this.columns = [];
-            } else {
-                this.database_table = table.target.value;
-                Nova.request().get('/nova-vendor/chatgpt-seeder/columns/' + table.target.value, {}).then(({data}) => {
-                    this.columns = data.columns
+        async getChatGPTModels() {
+            Nova.request().get('/nova-vendor/chatgpt/chatgpt-models')
+                .then(response => {
+                    this.chatgpt_models = response.data
                 })
-            }
         },
         cancel() {
             this.$refs.form.reset();
@@ -126,7 +139,13 @@ export default {
             this.total_tokens = '';
         },
         submitForm() {
-            Nova.request().post('/nova-vendor/chatgpt/ask', {question: this.question})
+            if (this.question.length < 3) {
+                this.error = "The question seems incomplete or unclear. Please try again.";
+            } else {
+                Nova.request().post('/nova-vendor/chatgpt/ask', {
+                    chatgpt_model: this.chatgpt_model,
+                    question: this.question
+                })
                 .then(({data}) => {
                     if (data.api_response_error) {
                         this.error = data.api_response_error;
@@ -137,10 +156,15 @@ export default {
                         this.total_tokens = data.total_tokens;
                     }
                 })
+            }
         },
         clearHistory() {
-            Nova.request().post('/nova-vendor/chatgpt/history/clear', {question: this.question})
-                .then(({data}) => {
+            this.history_cleared = true;
+
+            Nova.request().post('/nova-vendor/chatgpt/history/clear',{})
+                .then(response => {
+                    // this.success = response.data.success;
+                    this.history_cleared = true;
                 })
         },
         enableSubmit() {
